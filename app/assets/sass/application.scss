@@ -28,3 +28,17 @@ $path: "/public/images/";
 }
 
 // Add extra styles here, or re-organise the Sass files in whichever way makes most sense to you
+.mark {
+  border:1px solid $grey-3;
+  padding:10px;
+}
+
+@media (min-width: 641px)
+{
+  .form-control { width: 100%; }  
+}
+
+input[readonly]
+{
+  border-color:$grey-3;
+}

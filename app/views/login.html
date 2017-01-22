@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+
+{% block page_title %}
+  GOV.UK prototype kit
+{% endblock %}
+
+{% block content %}
+
+<main id="content" role="main">
+  <div class="grid-row">
+    <div class="column-two-thirds">
+
+      <h1 class="heading-medium">Login</h1>
+      <form method="post" action="/api/login/">
+        
+        <div class="form-group">
+          <label for="username">Pick your username</label><br />
+          <select id="username" name="username" class="form-control">
+            <option name="Tom Morgan">Tom Morgan</option>
+            <option name="Paul Smith">Paul Smith</option>
+          </select>
+        </div>
+        
+        <input type="submit" class="button" value="Continue" />
+        
+      </form>
+
+    </div>
+  </div>
+</main>
+
+{% endblock %}

@@ -20,3 +20,10 @@
   {% include "includes/scripts.html" %}
   <!-- GOV.UK Prototype kit {{releaseVersion}} -->
 {% endblock %}
+
+{% block footer_top %}
+<a href="/api/logout/">logout</a>
+| <a href="/add/">add</a>
+| <a href="/test/">test</a>
+| <a href="javascript:location.href='http://localhost:3000/add/?'+'url='+encodeURIComponent(location.href)+'&title='+encodeURIComponent(document.title);" title="Marx">bookmarklet</a>
+{% endblock %}

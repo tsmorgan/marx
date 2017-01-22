@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+
+{% block page_title %}
+  GOV.UK prototype kit
+{% endblock %}
+
+{% block content %}
+
+<main id="content" role="main">
+  <div class="grid-row">
+    <div class="column-two-thirds">
+      
+      <h1 class="heading-large">Bookmark</h1>
+      
+      <div class="mark form-group">
+        <p><a href="{{ mark.url }}">{{ mark.title }}</a></p>
+        <p>{{ mark.desc }}</p>
+        {% for tag in mark.tags %}
+          <span class="tag">{{ tag }}</span>&nbsp;
+        {% endfor %}
+        <p><a href="/edit/{{ mark._id }}">edit</a></p>
+      </div>
+
+    </div>
+  </div>
+</main>
+
+{% endblock %}
