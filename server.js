@@ -12,6 +12,7 @@ var browserSync = require('browser-sync')
 var config = require('./app/config.js')
 var utils = require('./lib/utils.js')
 var packageJson = require('./package.json')
+var cookieParser = require('cookie-parser')
 
 // Grab environment variables specified in Procfile or as Heroku config vars
 var releaseVersion = packageJson.version
@@ -95,6 +96,9 @@ app.use(session({
   saveUninitialized: false,
   secret: Math.round(Math.random() * 100000).toString()
 }))
+
+// parse Cookies yum yum!
+app.use(cookieParser())
 
 // Add variables that are available in all views
 app.locals.analyticsId = analyticsId
