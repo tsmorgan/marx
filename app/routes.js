@@ -29,41 +29,46 @@ router.get('/add/', function (req, res) {
     res.render('form',{"user":req.cookies.marx_user, "mark":req.query});
 });
 
-router.get('/tag/*', function (req, res) {
-  var tags = _.without(req.params[0].split('/'),'');
-  if (tags.length)
-  {
-    console.log(tags);
-    // store.find({ tags: { $in:tags }}).then(function(docs)
-    store.find({ tags:{ $all:tags }},{ sort:{ created: -1 }}).then(function(docs)
-    {
-      res.render('index',{"user":req.cookies.marx_user,"bookmarks":docs,"tags":tags});
-    });
-  } else {
-    res.send('No tag specifido!')
-  }
-});
-
 router.get('/view/:id', function (req, res) {
   store.findOne({"_id":req.params.id}).then(function(doc)
   {
-    res.render('view',{"user":req.cookies.marx_user, "mark":doc});
+    if (doc)
+    {
+      res.render('view',{"user":req.cookies.marx_user, "mark":doc});
+    } else {
+      res.send('Ooops! No bookmark found.');
+    }
   });
 });
 
-router.get('/edit/:id', function (req, res) {
+router.get('/edit/:id', function (req, res) {  
   store.findOne({"_id":req.params.id}).then(function(doc)
   {
-    var mark = { _id: doc._id, url: doc.url, title: doc.title }
-    var h = _.findIndex(doc.humans, ['user', req.cookies.marx_user]);
-    if (h > -1)
+    if (doc)
     {
-      mark.user = doc.humans[h].user;
-      mark.desc = doc.humans[h].desc;
-      mark.tags = doc.humans[h].tags;
+      var mark = { _id: doc._id, url: doc.url, title: doc.title }
+      var h = _.findIndex(doc.humans, ['user', req.cookies.marx_user]);
+      if (h > -1)
+      {
+        mark.user = doc.humans[h].user;
+        mark.desc = doc.humans[h].desc;
+        mark.tags = doc.humans[h].tags;
+      }
+      // res.send(tog(mark));
+      res.render('form',{"user":req.cookies.marx_user, "mark":mark});
+    } else {
+      res.send('Ooops! No bookmark found.');
     }
-    // res.send(tog(mark));
-    res.render('form',{"user":req.cookies.marx_user, "mark":mark});
+  });
+});
+
+router.post('/delete/:id', function (req, res) {
+  console.log("delete")
+  console.log(req.get('host'))
+  console.log(req.get('origin'))
+  store.findOneAndDelete({"_id":req.params.id}).then(function(doc)
+  {
+    res.send(tog(doc));
   });
 });
 
@@ -115,6 +120,19 @@ router.post('/api/marks/', function (req, res) {
   });
 })
 
-// add your routes here
+router.get('/*', function (req, res) {
+  var tags = _.without(req.params[0].split('/'),'');
+  if (tags.length)
+  {
+    console.log(tags);
+    // store.find({ tags: { $in:tags }}).then(function(docs)
+    store.find({ tags:{ $all:tags }},{ sort:{ created: -1 }}).then(function(docs)
+    {
+      res.render('index',{"user":req.cookies.marx_user,"bookmarks":docs,"tags":tags});
+    });
+  } else {
+    res.send('No tag specifido!')
+  }
+});
 
 module.exports = router

@@ -31,7 +31,7 @@
         {% endif %}
         <div class="human__tags">
         {% for tag in human.tags %}
-          <a href="/tag/{{ tag }}" class="tag" style="background-color:{{ tag | tagToColour() }}">&nbsp;</a>
+          <a href="/{{ tag }}/" class="tag" style="background-color:{{ tag | tagToColour() }}">&nbsp;</a>
         {% endfor %}
         </div>
       </div>
@@ -40,7 +40,7 @@
     <div class="column-third">
       <div class="global_tags">
       {% for tag, count in mark.tagCount %}
-        <a href="/tag/{{ tag }}" class="global__tag" style="background-color:{{ tag | tagToColour() }}"><span class="tag">{{ tag }}</span><span class="count">{{ count }}</span></a>
+        <a href="/{{ tag }}/" class="global__tag" style="background-color:{{ tag | tagToColour() }}"><span class="tag">{{ tag }}</span><span class="count">{{ count }}</span></a>
       {% endfor %}
       </div>
     </div><!-- column -->

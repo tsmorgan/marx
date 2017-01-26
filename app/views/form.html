@@ -6,43 +6,73 @@
 
 {% block content %}
 
-<form method="post" action="/api/marks/">
 <main id="content" role="main">
-  
+
+<form method="post" action="/api/marks/">
+
   <h1 class="heading-medium">{{ "Edit" if mark._id else "Add" }} Bookmark</h1>
-  
+
   <div class="grid-row">
     <div class="column-third">
-        
+
       <div class="form-group">
         <label for="url">URL</label><br />
         <input id="url" name="url" type="text" placeholder="http://..." class="form-control" value="{{ mark.url }}" {{ "readonly" if mark.url }} />
       </div>
-      
+
       <div class="form-group">
         <label for="title">Title</label><br />
         <input id="title" name="title" type="text" class="form-control" value="{{ mark.title }}" />
       </div>
-    
+
     </div>
     <div class="column-two-thirds">
-      
+
       <div class="form-group">
         <label for="desc">Your comment</label><br />
         <textarea id="desc" name="desc" rows="6" class="form-control">{{ mark.desc }}</textarea>
       </div>
-      
+
       <div class="form-group">
         <label for="tags">Your tags</label><br />
         <input id="tags" name="tags" type="text" placeholder="" class="form-control" value="{{ mark.tags | default([]) | join(", ") }}"/>
       </div>
-      
+
       <input id="user" name="user" type="hidden" value="{{cookie}}" />
       <input type="submit" class="button" value="Continue" />
 
     </div>
   </div>
-</main>
 </form>
 
+<form method="post" action="/delete/{{ mark._id }}/" class="delete">
+  <div class="grid-row" style="margin-top:60px">
+    <div class="column-third">
+      &nbsp;
+    </div><!-- column -->
+    <div class="column-two-thirds">
+        <input type="submit" class="button button--red" value="Delete this bookmark" />
+    </div><!-- column -->
+  </div><!-- row -->
+</form>
+
+</main>
+{% endblock %}
+
+{% block page_script %}
+<script type="text/javascript">
+  $(document).on('ready',function()
+  {
+    $('form.delete .button').on('click',function(e)
+    {
+      e.preventDefault();
+      if (confirm("Arrrrrrrggh! This isn't undoable. Please be certain. Arrrrrgh! You migth destroy the world! People may be inconvenienced! If you're still reading this click cancel now. Honestly, this clearly wasn't what you meant. Love you. Bye!"))
+      {
+        $('form.delete').submit();
+      } else {
+        return false;
+      }
+    });
+  });
+</script>
 {% endblock %}

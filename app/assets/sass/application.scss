@@ -169,7 +169,35 @@ a.global__tag {
     background-color:$govuk-blue;
     border-color:purple;    
   }
-  &:hover,&:active {
+  &:hover,&:active,&:focus {
     background-color:darken($govuk-blue,5);
   }
+}
+
+.button--red {
+  
+  background-color:$mellow-red;
+  border-color:darken($mellow-red,10);
+  
+  &:link,&:visited {
+    background-color:$mellow-red;
+    border-color:darken($mellow-red,10);
+  }
+  &:hover,&:active,&:focus {
+    background-color:darken($mellow-red,5);
+  }
+}
+
+.index-table {
+  table-layout: fixed;
+  width: 100%;
+  white-space: nowrap;
+  
+  td {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .button { margin-bottom:5px; }
 }
