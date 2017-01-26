@@ -1,17 +1,22 @@
 {% extends "layout.html" %}
 
 {% block page_title %}
-  GOV.UK prototype kit
+  {% if tags.length %}
+      {{ tags | join('/') }}
+  {% else %}
+      Everything!
+  {% endif %}
+  - {{ super() }}
 {% endblock %}
 
-{% block content %}
 
+{% block content %}
 <main id="content" role="main">
   {# <div class="grid-row">
     <div class="column-two-thirds"> #}
       
       {% if tags.length %}
-          <h1 class="heading-xlarge" style="margin-bottom:0px">{{ tags | join(', ') }}</h1>
+          <h1 class="heading-xlarge" style="margin-bottom:0px">{{ tags | join('/') }}</h1>
       {% else %}
           <h1 class="heading-xlarge" style="margin-bottom:0px">Everything!</h1>
       {% endif %}
