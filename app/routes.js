@@ -1,8 +1,7 @@
 var express     = require('express'),
     _           = require('lodash'),
     router      = express.Router(),
-    db_url      = process.env.MONGOLAB_URI || 'mongodb://localhost/marx',
-    db_url      = 'mongodb://localhost/marx',
+    db_url      = process.env.MONGODB_URI || 'mongodb://localhost/marx',
     db          = require('monk')(db_url),
     tog         = require(__dirname + '/../lib/tog.js'),
     bk          = require(__dirname + '/bookmark.js');
