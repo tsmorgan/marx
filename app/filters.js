@@ -1,3 +1,8 @@
+var moment = require('moment'),
+    Color  = require('color-js');
+    
+    console.log(Color);
+
 module.exports = function (env) {
   /**
    * Instantiate object used to store the methods registered as a
@@ -6,6 +11,24 @@ module.exports = function (env) {
    * @type {Object}
    */
   var filters = {}
+
+  filters.formatDate = function(str,format) {
+    var d = moment(str).format(format);
+    if (d !== 'Invalid date') return d;
+    else return '';
+  };
+  
+  filters.tagToColour = function(str) {
+    var cols = ["purple", "pink", "mellow-red", "yellow", "turquoise", "mauve", "baby-pink", "orange", "orange", "green", "light-blue", "fuschia", "red", "brown", "grass-green", "govuk-blue"];
+    var hex = ["#2E358B","#D53880","#DF3034","#FFBF47","#28A197","#6F72AF","#F499BE","#F47738","#006435","#2B8CC4","#912B88","#B10E1E","#B58840","#85994B","#85994B"]
+    var c = 0;
+    for (var i = 0; i < str.length; i++) {
+      c += str.charCodeAt(i);
+    }
+    var hue = c%360;
+    var col = Color({hue:hue, saturation:0.62, lightness:0.76});
+    return col;
+  };
 
   /* ------------------------------------------------------------------
     add your methods to the filters obj below this comment block:

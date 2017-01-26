@@ -9,9 +9,10 @@ var express     = require('express'),
 
 var store = db.get('bookmarks');
 
-router.get('*', function (req, res, next) {
+router.get(/.*/, function (req, res, next) {
   if (!req.cookies.marx_user)
   {
+    console.log('checking cookies')
     res.render('login',{"cookie":req.cookies});
   } else {
     next();
@@ -21,19 +22,12 @@ router.get('*', function (req, res, next) {
 router.get('/', function (req, res) {
   store.find({}).then(function(docs)
   {
-    res.render('index',{"bookmarks":docs});
-  });
-});
-
-router.get('/test/', function (req, res) {
-  store.find({ tags: { $in: ["fish","flash"] }}).then(function(docs)
-  {
-    res.render('index',{"bookmarks":docs});
+    res.render('index',{"user":req.cookies.marx_user,"bookmarks":docs});
   });
 });
 
 router.get('/add/', function (req, res) {
-    res.render('form',{"cookie":req.cookies.marx_user, "mark":req.query});
+    res.render('form',{"user":req.cookies.marx_user, "mark":req.query});
 });
 
 router.get('/tag/*', function (req, res) {
@@ -44,12 +38,18 @@ router.get('/tag/*', function (req, res) {
     // store.find({ tags: { $in:tags }}).then(function(docs)
     store.find({ tags:{ $all:tags }},{ sort:{ created: -1 }}).then(function(docs)
     {
-      res.render('index',{"bookmarks":docs});
+      res.render('index',{"user":req.cookies.marx_user,"bookmarks":docs,"tags":tags});
     });
   } else {
     res.send('No tag specifido!')
   }
-  
+});
+
+router.get('/view/:id', function (req, res) {
+  store.findOne({"_id":req.params.id}).then(function(doc)
+  {
+    res.render('view',{"user":req.cookies.marx_user, "mark":doc});
+  });
 });
 
 router.get('/edit/:id', function (req, res) {
@@ -61,10 +61,10 @@ router.get('/edit/:id', function (req, res) {
     {
       mark.user = doc.humans[h].user;
       mark.desc = doc.humans[h].desc;
-      mark.tags = doc.humans[h].tags; 
+      mark.tags = doc.humans[h].tags;
     }
     // res.send(tog(mark));
-    res.render('form',{"cookie":req.cookies.marx_user, "mark":mark});
+    res.render('form',{"user":req.cookies.marx_user, "mark":mark});
   });
 });
 
@@ -92,25 +92,25 @@ router.post('/api/marks/', function (req, res) {
       bookmark.newBookmark(req.body);
       bookmark.countTags();
       bookmark.grabTags();
-      
-      var mark = bookmark.getBookmark();            
-      store.insert(mark).then(function()
+
+      var mark = bookmark.getBookmark();
+      store.insert(mark).then(function(doc)
       {
-        res.send("added bookmark: "+tog(mark));
+        res.redirect('/view/'+doc._id);
       },function() { res.send("error adding to db"); });
 
     } else {
-      
+
       var bookmark = bk(docs[0],req.cookies.marx_user);
       bookmark.updateBookmark(req.body);
       bookmark.countTags();
       bookmark.grabTags();
-      
+
       var mark = bookmark.getBookmark();
-      
+
       store.update({"_id":docs[0]._id},mark).then(function()
       {
-        res.send("updated bookmark: "+tog(mark));
+        res.redirect('/view/'+docs[0]._id);
       },function() { res.send("error adding to db"); });
     }
   });

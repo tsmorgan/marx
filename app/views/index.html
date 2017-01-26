@@ -7,25 +7,52 @@
 {% block content %}
 
 <main id="content" role="main">
-  <div class="grid-row">
-    <div class="column-two-thirds">
+  {# <div class="grid-row">
+    <div class="column-two-thirds"> #}
       
-      <h1 class="heading-large">Bookmarks</h1>
+      {% if tags.length %}
+          <h1 class="heading-xlarge" style="margin-bottom:0px">{{ tags | join(', ') }}</h1>
+      {% else %}
+          <h1 class="heading-xlarge" style="margin-bottom:0px">Everything!</h1>
+      {% endif %}
       
-      {% for item in bookmarks %}
-        <div class="mark form-group">
+      
+      <table >
+        <thead>
+          <tr>
+            <th colspan="1">&nbsp;</th>
+            <th colspan="1" style="text-align:center">updated</th>
+            <th colspan="2">&nbsp;</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for item in bookmarks %}
+          <tr>
+            <td><a href="{{ item.url }}">{{ item.title }}</a></td>
+            {# <td>
+            {% for tag in item.tags %}
+              <a class="tag" href="/tag/{{ tag }}" style="background-color:{{ tag | tagToColour() }};">{{ tag }}</a>
+            {% endfor %}
+            </td> #}
+            <td style="white-space:nowrap;font-size:14px;">{{ item.updated | formatDate("Do MMMM YYYY") }}</td>
+            <td><a class="button" href="/edit/{{ item._id }}">edit</a></td>
+            <td><a class="button button--blue" href="/view/{{ item._id }}">view</a></td>            
+          </tr>
+      
+      
+        {# <div class="mark form-group">
           <p><a href="{{ item.url }}">{{ item.title }}</a></p>
           <p>{{ item.desc }}</p>
           {% for tag in item.tags %}
-            <span class="tag">{{ tag }}</span>&nbsp;
+            <span class="tag"><a href="/tag/{{ tag }}">{{ tag }}</a></span>&nbsp;
           {% endfor %}
-          <p><a href="/edit/{{ item._id }}">edit</a></p>
-          <p><a href="/tag/{{ item._id }}">view</a></p>
-        </div>
-      {% endfor %}
-
-    </div>
-  </div>
+          
+        </div> #}
+        {% endfor %}
+        </tbody>
+      </table>
+    {# </div>
+  </div> #}
 </main>
 
 {% endblock %}

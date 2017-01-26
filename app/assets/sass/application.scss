@@ -9,6 +9,17 @@ $path: "/public/images/";
 // Take a look at in app/assets/sass/patterns/ to see which files are imported.
 @import 'patterns/check-your-answers';
 
+
+#proposition-name {
+  font-family: 'NotoSans', arial, sans-serif !important;
+}
+
+.dwplogo {
+  margin-top: 4px !important;
+  font-size: 30px !important;
+  background: none !important;
+}
+
 // Related items
 // (These styles will be moved to GOV.UK elements, duplicating here for now.)
 .govuk-related-items {
@@ -35,10 +46,130 @@ $path: "/public/images/";
 
 @media (min-width: 641px)
 {
-  .form-control { width: 100%; }  
+  .form-control { width: 100%; }
 }
 
 input[readonly]
 {
   border-color:$grey-3;
+}
+
+.human {
+  border-top:1px solid $grey-3;
+  padding-top:10px;
+  margin-bottom:20px;
+}
+.human__head {
+  position:relative;
+  padding-top:1.5em;
+  .human__user {
+    position:absolute;
+    top:0;left:0;
+    font-weight:700;
+  }
+  .human__updated {
+    position:absolute;
+    top:0;right:0;
+    color:$grey-1;
+    font-size:14px;
+  }
+  .human__tags {
+    float:left;
+  }
+}
+
+.human__edit {
+  a.button {
+    float:right;
+    padding:3px 10px 0px;
+    font-size:16;
+  }
+}
+
+a.tag {
+  display:inline-block;
+  color:black;
+  text-decoration:none;
+  padding:6px 10px 3px;
+  font-size:14px;
+  // font-weight:700;
+  // color:white;
+  &:hover {
+    background-color:$govuk-blue !important;
+    color:white;
+  }
+}
+
+a.global__tag {
+  display:flex;
+  flex-direction:row;
+  flex-wrap:nowrap;
+  justify-content: space-between;
+
+  color:black;
+  text-decoration:none;
+  padding:5px 10px;
+  margin-bottom:5px;
+
+  &:hover {
+    background-color:$govuk-blue !important;
+    color:white;
+    span.count { color:black; }
+  }
+
+  span.tag {
+    align-self: center;
+    padding-top:2px;
+  }
+  span.count {
+    align-self: center;
+    box-sizing: border-box;
+    background-color:white;
+    width:20px;
+    height:20px;
+    text-align:center;
+    border-radius:50%;
+    font-size:12px;
+    font-weight:700;
+    padding-top:3px;
+  }
+}
+
+.tag {
+  .purple { background-color:$purple; }
+  .pink { background-color:$pink; }
+  .mellow-red { background-color:$mellow-red; }
+  .yellow { background-color:$yellow; }
+  .turquoise { background-color:$turquoise; }
+  .mauve { background-color:$mauve; }
+  .baby-pink { background-color:$baby-pink; }
+  .orange { background-color:$orange; }
+  .orange { background-color:$orange; }
+  .green { background-color:$green; }
+  .light-blue { background-color:$light-blue; }
+  .fuschia { background-color:$fuschia; }
+  .red { background-color:$red; }
+  .brown { background-color:$brown; }
+  .grass-green { background-color:$grass-green; }
+  .govuk-blue { background-color:$govuk-blue; }
+}
+
+.logged_in {
+  float:right;
+  padding-top:5px;
+  a { color:white; text-decoration:none;}
+  a:hover {
+    color:$yellow;
+    text-decoration:underline;
+  }
+}
+
+.button--blue {
+  &:link,&:visited {
+    background-color:$govuk-blue;
+    border-color:purple;    
+  }
+  &:hover,&:active {
+    background-color:darken($govuk-blue,5);
+  }
 }

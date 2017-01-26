@@ -21,6 +21,12 @@
   <!-- GOV.UK Prototype kit {{releaseVersion}} -->
 {% endblock %}
 
+{% block logged_in %}
+  <div class="logged_in">
+    <a href="/api/logout/">{{ user }}</a>
+  </div>
+{% endblock %}
+
 {% block footer_top %}
 <a href="/api/logout/">logout</a>
 | <a href="/add/">add</a>

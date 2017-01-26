@@ -53,14 +53,13 @@ function Bookmark(bk,user)
       for (var i = 0; i < bookmark.humans.length; i++)
       {
         var human = bookmark.humans[i];
-        for (var i = 0; i < human.tags.length; i++)
+        for (var j = 0; j < human.tags.length; j++)
         {
-          var tag = human.tags[i];
+          var tag = human.tags[j];
           count[tag] = (count[tag]) ? count[tag] + 1 : 1;
         }
       }
       bookmark.tagCount = count;
-      return bookmark;
     },
     
     grabTags: function()
