@@ -6,6 +6,8 @@
 
 {% block content %}
 
+{{ mark | log }}
+
 <main id="content" role="main">
 
 <form method="post" action="/api/marks/">
@@ -25,21 +27,34 @@
         <input id="title" name="title" type="text" class="form-control" value="{{ mark.title }}" />
       </div>
 
+      <div class="form-group">
+        <h3 class="heading-small">Already tagged</h3>
+        <div>
+        {% for tag, count in mark.tagCount %}
+          <a href="/{{ tag }}/" class="edit__tag" style="background-color:{{ tag | tagToColour() }}"><span class="tag">{{ tag }}</span><span class="count">{{ count }}</span></a>
+        {% endfor %}
+        </div>
+      </div>
+
     </div>
     <div class="column-two-thirds">
 
       <div class="form-group">
         <label for="desc">Your comment</label><br />
-        <textarea id="desc" name="desc" rows="6" class="form-control">{{ mark.desc }}</textarea>
+        <textarea id="desc" name="desc" rows="6" class="form-control">{{ mark.me.desc }}</textarea>
       </div>
 
       <div class="form-group">
         <label for="tags">Your tags</label><br />
-        <input id="tags" name="tags" type="text" placeholder="" class="form-control" value="{{ mark.tags | default([]) | join(", ") }}"/>
+        <input id="tags" name="tags" type="text" placeholder="" class="form-control" value="{{ mark.me.tags | default([]) | join(", ") }}"/>
       </div>
 
-      <input id="user" name="user" type="hidden" value="{{cookie}}" />
-      <input type="submit" class="button" value="Continue" />
+      <div class="form-group">
+        <input id="user" name="user" type="hidden" value="{{cookie}}" />
+        <p style="float:right"><a id="delete" class="button button--red" />Delete</a></p>
+        <p><input type="submit" class="button" value="Continue" /></p>
+      </div>
+      
 
     </div>
   </div>
@@ -51,7 +66,7 @@
       &nbsp;
     </div><!-- column -->
     <div class="column-two-thirds">
-        <input type="submit" class="button button--red" value="Delete this bookmark" />
+
     </div><!-- column -->
   </div><!-- row -->
 </form>
@@ -63,7 +78,35 @@
 <script type="text/javascript">
   $(document).on('ready',function()
   {
-    $('form.delete .button').on('click',function(e)
+    var tags = cleanTags($('#tags').val());
+
+    function cleanTags(tags)
+    {
+      return _.without(_.uniq(tags.replace(/[^\w\-\s\,]+/g,'').split(/[,\s]+/g)),'');
+    }
+
+    $('#tags').on('keyup',function(e)
+    {
+      var val = $(this).val();
+      tags = cleanTags(val);
+      console.log(tags);
+    });
+
+    $('#tags').on('blur',function(e)
+    {
+      $(this).val(tags.join(', '));
+    });
+
+    $(".edit__tag").on('click',function(e)
+    {
+      e.preventDefault();
+      var t = $(this).find('.tag').text();
+      var s = $('#tags').val()+", "+t;
+      tags = cleanTags(s);
+      $('#tags').val(tags.join(', '));
+    });
+
+    $('#delete').on('click',function(e)
     {
       e.preventDefault();
       if (confirm("Arrrrrrrggh! This isn't undoable. Please be certain. Arrrrrgh! You migth destroy the world! People may be inconvenienced! If you're still reading this click cancel now. Honestly, this clearly wasn't what you meant. Love you. Bye!"))

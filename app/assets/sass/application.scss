@@ -105,7 +105,24 @@ a.global__tag {
   flex-direction:row;
   flex-wrap:nowrap;
   justify-content: space-between;
+  span.tag {
+    align-self: center;
+  }
+  span.count {
+    align-self: center;
+  }
+}
 
+a.edit__tag {
+  display:inline-block;
+  span.count {
+    display:inline-block;
+    margin-left:5px;
+  }
+}
+
+a.global__tag, a.edit__tag, {
+  
   color:black;
   text-decoration:none;
   padding:5px 10px;
@@ -118,11 +135,11 @@ a.global__tag {
   }
 
   span.tag {
-    align-self: center;
     padding-top:2px;
+    text-overflow: ellipsis;
+    overflow:hidden;
   }
   span.count {
-    align-self: center;
     box-sizing: border-box;
     background-color:white;
     width:20px;

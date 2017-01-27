@@ -19,8 +19,6 @@ module.exports = function (env) {
   };
   
   filters.tagToColour = function(str) {
-    var cols = ["purple", "pink", "mellow-red", "yellow", "turquoise", "mauve", "baby-pink", "orange", "orange", "green", "light-blue", "fuschia", "red", "brown", "grass-green", "govuk-blue"];
-    var hex = ["#2E358B","#D53880","#DF3034","#FFBF47","#28A197","#6F72AF","#F499BE","#F47738","#006435","#2B8CC4","#912B88","#B10E1E","#B58840","#85994B","#85994B"]
     var c = 0;
     for (var i = 0; i < str.length; i++) {
       c += str.charCodeAt(i);

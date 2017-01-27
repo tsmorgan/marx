@@ -5,6 +5,11 @@ function Bookmark(bk,user)
   var bookmark = bk;
   var user = user;
   
+  function cleanTags(tags)
+  {
+    return _.without(_.uniq(tags.split(/[,\s]+/g)),'');
+  }
+  
   return {
     
     newBookmark: function(data)
@@ -17,7 +22,7 @@ function Bookmark(bk,user)
             {
               "user": user,
               "desc": data.desc,
-              "tags": _.uniq(data.tags.split(', ')),
+              "tags": cleanTags(data.tags),
               "updated": new Date()
             }
         ],
@@ -35,13 +40,13 @@ function Bookmark(bk,user)
       if (h >= 0)
       {
         bookmark.humans[h].desc = data.desc;
-        bookmark.humans[h].tags = data.tags.split(', ');
+        bookmark.humans[h].tags = cleanTags(data.tags),
         bookmark.humans[h].updated = new Date();
       } else {
         bookmark.humans.push({
           "user": user,
           "desc": data.desc,
-          "tags": data.tags.split(', '),
+          "tags": cleanTags(data.tags),
           "updated": new Date()
         });
       }

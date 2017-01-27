@@ -19,7 +19,7 @@ router.get(/.*/, function (req, res, next) {
 });
 
 router.get('/', function (req, res) {
-  store.find({}).then(function(docs)
+  store.find({},{ sort:{ created: -1 }}).then(function(docs)
   {
     res.render('index',{"user":req.cookies.marx_user,"bookmarks":docs});
   });
@@ -41,20 +41,14 @@ router.get('/view/:id', function (req, res) {
   });
 });
 
-router.get('/edit/:id', function (req, res) {  
+router.get('/edit/:id', function (req, res) {
   store.findOne({"_id":req.params.id}).then(function(doc)
   {
     if (doc)
     {
-      var mark = { _id: doc._id, url: doc.url, title: doc.title }
+      var mark = doc;
       var h = _.findIndex(doc.humans, ['user', req.cookies.marx_user]);
-      if (h > -1)
-      {
-        mark.user = doc.humans[h].user;
-        mark.desc = doc.humans[h].desc;
-        mark.tags = doc.humans[h].tags;
-      }
-      // res.send(tog(mark));
+      mark.me = doc.humans[h];
       res.render('form',{"user":req.cookies.marx_user, "mark":mark});
     } else {
       res.send('Ooops! No bookmark found.');
@@ -63,9 +57,6 @@ router.get('/edit/:id', function (req, res) {
 });
 
 router.post('/delete/:id', function (req, res) {
-  console.log("delete")
-  console.log(req.get('host'))
-  console.log(req.get('origin'))
   store.findOneAndDelete({"_id":req.params.id}).then(function(doc)
   {
     res.send(tog(doc));
