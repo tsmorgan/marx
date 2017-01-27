@@ -16,12 +16,12 @@
     <div class="column-two-thirds"> #}
 
       {% if tags.length %}
-          <h1 class="heading-xlarge" style="margin-bottom:0px">{{ tags | join('/') }}</h1>
+          <h1 class="heading-xlarge tag__heading" style="background-color:{{ tags | join('/') | tagToColour() }}">{{ tags | join('/') }}</h1>
       {% else %}
-          <h1 class="heading-xlarge" style="margin-bottom:0px">Everything!</h1>
+          <h1 class="heading-xlarge tag__heading bg-blue">Everything!</h1>
       {% endif %}
 
-
+      {% if bookmarks.length %}
       <table class="index-table">
         <thead>
           <tr>
@@ -57,6 +57,9 @@
         {% endfor %}
         </tbody>
       </table>
+      {% else %}
+        <h3 class="font-medium" style="margin-top:30px;">No bookmarks for this combination of tags&hellip; yet! ;-)</h3>
+      {% endif %}
     {# </div>
   </div> #}
 </main>

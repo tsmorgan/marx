@@ -12,7 +12,7 @@
 
 <form method="post" action="/api/marks/">
 
-  <h1 class="heading-medium">{{ "Edit" if mark._id else "Add" }} Bookmark</h1>
+  <h1 class="heading-large" style="margin-top:20px;">{{ "Edit" if mark._id else "Add" }} Bookmark</h1>
 
   <div class="grid-row">
     <div class="column-third">
@@ -27,14 +27,16 @@
         <input id="title" name="title" type="text" class="form-control" value="{{ mark.title }}" />
       </div>
 
+      {% if mark.tags.length %}
       <div class="form-group">
-        <h3 class="heading-small">Already tagged</h3>
+        <h3 class="heading-small">Already tagged with:</h3>
         <div>
         {% for tag, count in mark.tagCount %}
           <a href="/{{ tag }}/" class="edit__tag" style="background-color:{{ tag | tagToColour() }}"><span class="tag">{{ tag }}</span><span class="count">{{ count }}</span></a>
         {% endfor %}
         </div>
       </div>
+      {% endif %}
 
     </div>
     <div class="column-two-thirds">
@@ -54,7 +56,7 @@
         <p style="float:right"><a id="delete" class="button button--red" />Delete</a></p>
         <p><input type="submit" class="button" value="Continue" /></p>
       </div>
-      
+
 
     </div>
   </div>

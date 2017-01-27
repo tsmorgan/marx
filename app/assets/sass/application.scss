@@ -218,3 +218,12 @@ a.global__tag, a.edit__tag, {
   
   .button { margin-bottom:5px; }
 }
+
+.tag__heading {
+  margin:0;
+  padding:20px;
+  &.bg-blue {
+    background-color:darken($govuk-blue,10);
+    color:white;
+  }
+}
