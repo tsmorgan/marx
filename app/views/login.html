@@ -12,8 +12,9 @@
         <div class="form-group">
           <label for="username">Pick your username</label><br />
           <select id="username" name="username" class="form-control">
-            <option name="Tom Morgan">Tom Morgan</option>
-            <option name="Paul Smith">Paul Smith</option>
+            {% for item in users %}
+                <option name="{{ item }}">{{ item }}</option>
+            {% endfor %}
           </select>
         </div>
         

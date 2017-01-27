@@ -1,5 +1,6 @@
 var express     = require('express'),
     _           = require('lodash'),
+    fs          = require('fs'),
     router      = express.Router(),
     db_url      = process.env.MONGODB_URI || 'mongodb://localhost/marx',
     db          = require('monk')(db_url),
@@ -8,11 +9,14 @@ var express     = require('express'),
 
 var store = db.get('bookmarks');
 
-router.get(/.*/, function (req, res, next) {
+var users = fs.readFileSync(__dirname + '/users.txt').toString().trim().split(/\s*\n/);
+console.log(users);
+
+router.get("/*", function (req, res, next) {
   if (!req.cookies.marx_user)
   {
     console.log('checking cookies')
-    res.render('login',{"cookie":req.cookies});
+    res.render('login',{"cookie":req.cookies,users:users});
   } else {
     next();
   }

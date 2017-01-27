@@ -14,7 +14,6 @@ function Bookmark(bk,user)
     
     newBookmark: function(data)
     {
-      console.log("newBookmark")
       _.assign(bookmark,{
         "url":  data.url,
         "title": data.title,

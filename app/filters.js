@@ -1,7 +1,5 @@
 var moment = require('moment'),
     Color  = require('color-js');
-    
-    console.log(Color);
 
 module.exports = function (env) {
   /**

@@ -11,13 +11,15 @@
 
 <main id="content" role="main">
 
-  <h1 class="heading-large">{{ mark.title }}</h1>
+  <h1 class="heading-large" style="margin-top:20px">{{ mark.title }}</h1>
 
   <div class="grid-row">
     <div class="column-two-thirds">
 
       <p><a href="{{ mark.url }}">{{ mark.url }}</a></p>
       <p>{{ mark.desc }}</p>
+      
+      {% set edit_but = false %}
 
       {% for human in mark.humans %}
       <div class="human">
@@ -28,6 +30,7 @@
         <p class="human__desc">{{ human.desc }}</p>
         {% if user == human.user %}
             <p class="human__edit"><a class="button" href="/edit/{{ mark._id }}">edit</a></p>
+            {% set edit_but = true %}
         {% endif %}
         <div class="human__tags">
         {% for tag in human.tags %}
@@ -38,6 +41,9 @@
       {% endfor %}
     </div>
     <div class="column-third">
+      {% if not edit_but %}
+        <p class="human__edit"><a class="button" href="/edit/{{ mark._id }}">edit</a></p>
+      {% endif %}
       <div class="global_tags">
       {% for tag, count in mark.tagCount %}
         <a href="/{{ tag }}/" class="global__tag" style="background-color:{{ tag | tagToColour() }}"><span class="tag">{{ tag }}</span><span class="count">{{ count }}</span></a>
