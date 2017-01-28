@@ -42,7 +42,7 @@
     </div>
     <div class="column-third">
       {% if not edit_but %}
-        <p class="human__edit"><a class="button" href="/edit/{{ mark._id }}">edit</a></p>
+        <p class="human__edit" style="overflow:auto;margin-bottom:10px"><a class="button" href="/edit/{{ mark._id }}">edit</a></p>
       {% endif %}
       <div class="global_tags">
       {% for tag, count in mark.tagCount %}

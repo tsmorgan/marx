@@ -122,7 +122,7 @@ a.edit__tag {
 }
 
 a.global__tag, a.edit__tag, {
-  
+
   color:black;
   text-decoration:none;
   padding:5px 10px;
@@ -184,7 +184,7 @@ a.global__tag, a.edit__tag, {
 .button--blue {
   &:link,&:visited {
     background-color:$govuk-blue;
-    border-color:purple;    
+    border-color:purple;
   }
   &:hover,&:active,&:focus {
     background-color:darken($govuk-blue,5);
@@ -192,10 +192,10 @@ a.global__tag, a.edit__tag, {
 }
 
 .button--red {
-  
+
   background-color:$mellow-red;
   border-color:darken($mellow-red,10);
-  
+
   &:link,&:visited {
     background-color:$mellow-red;
     border-color:darken($mellow-red,10);
@@ -209,13 +209,14 @@ a.global__tag, a.edit__tag, {
   table-layout: fixed;
   width: 100%;
   white-space: nowrap;
-  
+
   td {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    padding-top:10px;
   }
-  
+
   .button { margin-bottom:5px; }
 }
 
@@ -225,5 +226,37 @@ a.global__tag, a.edit__tag, {
   &.bg-blue {
     background-color:darken($govuk-blue,10);
     color:white;
+  }
+}
+
+.icon {
+  display:inline-block;
+  position:relative;
+  top:8px;
+  margin:0 5px 0 30px
+}
+
+.font-normal { font-weight:normal}
+
+.view-link {
+  &:link,&:hover,&:active,&:focus,&:visited { color:black; }
+  display:block;
+  font-size:16px;
+  text-decoration:none;
+  padding:5px 10px 3px;
+  &:hover,&:active {
+    background-color:$yellow;
+  }
+  img { position:relative; top:-1px; vertical-align:middle; }
+}
+
+.link-block {
+  display:block;
+  padding:7px 10px 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  &:hover {
+    background-color: $grey-3;
   }
 }
