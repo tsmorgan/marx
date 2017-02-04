@@ -1,31 +1,22 @@
 {% extends "layout.html" %}
 
-{% block page_title %}
-  {% if tags.length %}
-      {{ tags | join('/') }}
-  {% else %}
-      Everything!
-  {% endif %}
-  - {{ super() }}
-{% endblock %}
-
+{% block page_title %} {{ tags | join('/') }} - {{ super() }} {% endblock %}
 
 {% block content %}
 <main id="content" role="main">
   {# <div class="grid-row">
     <div class="column-two-thirds"> #}
 
-      {% if tags.length %}
-          <h1 class="heading-xlarge tag__heading" style="background-color:{{ tags | join('/') | tagToColour() }}">{{ tags | join('/') }}</h1>
-      {% else %}
-          <h1 class="heading-xlarge tag__heading bg-blue">Everything!</h1>
-      {% endif %}
+      <div class="heading-xlarge tag__heading" style="background-color:{{ tags | join('/') | tagToColour() }}">
+        <p class="sub">all bookmarks tagged with:</p>
+        {{ tags | join(' + ') }}
+      </div>
 
       {% if bookmarks.length %}
       <table class="index-table">
         <thead>
           <tr>
-            <th class="row-url">&nbsp;</th>
+            <th class="row-url"></th>
             <th class="row-view" width="250px">&nbsp;</th>
             <th class="row-edit" width="70px">&nbsp;</th>
           </tr>

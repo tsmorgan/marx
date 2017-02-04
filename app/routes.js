@@ -12,6 +12,10 @@ var store = db.get('bookmarks');
 var users = fs.readFileSync(__dirname + '/users.txt').toString().trim().split(/\s*\n/);
 console.log(users);
 
+/*
+  Always check for the user cookie whatever page we're on
+  If they don't have the it show the login screen instead.
+*/
 router.get("/*", function (req, res, next) {
   if (!req.cookies.marx_user)
   {
@@ -22,17 +26,26 @@ router.get("/*", function (req, res, next) {
   }
 });
 
+/*
+  Home page
+*/
 router.get('/', function (req, res) {
-  store.find({},{ sort:{ created: -1 }}).then(function(docs)
+  store.find({ tags:{ $in:['home'] } },{ sort:{ created: -1 }}).then(function(docs)
   {
-    res.render('index',{"user":req.cookies.marx_user,"bookmarks":docs});
+    res.render('index',{"user":req.cookies.marx_user,"bookmarks":docs,"tags":['home']});
   });
 });
 
+/*
+  Add a new bookmark form.
+*/
 router.get('/add/', function (req, res) {
     res.render('form',{"user":req.cookies.marx_user, "mark":req.query});
 });
 
+/*
+  Details page for each bookmark (by ID)
+*/
 router.get('/view/:id', function (req, res) {
   store.findOne({"_id":req.params.id}).then(function(doc)
   {
@@ -45,6 +58,10 @@ router.get('/view/:id', function (req, res) {
   });
 });
 
+/*
+  Edit page for each bookmark (by ID), uses the
+  same "form.html" template as the /add/ page.
+*/
 router.get('/edit/:id', function (req, res) {
   store.findOne({"_id":req.params.id}).then(function(doc)
   {
@@ -60,6 +77,9 @@ router.get('/edit/:id', function (req, res) {
   });
 });
 
+/*
+  Delete URL will remove the bookmark (by ID) from the database.
+*/
 router.post('/delete/:id', function (req, res) {
   store.findOneAndDelete({"_id":req.params.id}).then(function(doc)
   {
@@ -67,6 +87,10 @@ router.post('/delete/:id', function (req, res) {
   });
 });
 
+/*
+  The route that the login form posts to. Just writes
+  a cookie and passes you on to the home page.
+*/
 router.post('/api/login/', function (req, res) {
   // res.send(tog(req.body));
   var randomNumber=Math.random().toString();
@@ -75,11 +99,22 @@ router.post('/api/login/', function (req, res) {
   res.redirect('/');
 });
 
+/*
+  A route to log you out. It's what the username link
+  at the top links to. Not really any reason for people
+  to log out but it's there just in case.
+*/
 router.get('/api/logout/', function (req, res) {
   res.clearCookie('marx_user');
   res.redirect('/');
 });
 
+/*
+  The route that /add/ and /edit/ post to. CHecks whether
+  the bookmark is already in the database and then adds a
+  new one if not or updates the existing one. See bookmark.js
+  for some of the details.
+*/
 router.post('/api/marks/', function (req, res) {
   // res.send(tog(req.body));
   store.find({"url":req.body.url}).then(function(docs)
@@ -115,6 +150,11 @@ router.post('/api/marks/', function (req, res) {
   });
 })
 
+/*
+  This route mops up all the other URLs for the site. This enables
+  all the /tag/tag/ pages by just grabbing everything in the URL
+  splitting it up and assuming they're all tags.
+*/
 router.get('/*', function (req, res) {
   var tags = _.without(req.params[0].split('/'),'');
   if (tags.length)

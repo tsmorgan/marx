@@ -209,7 +209,7 @@ a.global__tag, a.edit__tag, {
   table-layout: fixed;
   width: 100%;
   white-space: nowrap;
-
+  thead th {line-height:0;height:0;overflow:hidden;}
   td {
     white-space: nowrap;
     overflow: hidden;
@@ -221,11 +221,18 @@ a.global__tag, a.edit__tag, {
 }
 
 .tag__heading {
+  display:block;
   margin:0;
-  padding:20px;
+  padding:0 20px 20px;
   &.bg-blue {
     background-color:darken($govuk-blue,10);
     color:white;
+  }
+  .sub {
+    font-size:16px;
+    margin:0px;
+    padding:15px 0 5px;
+    font-weight:normal;
   }
 }
 
