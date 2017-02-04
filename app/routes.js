@@ -8,9 +8,7 @@ var express     = require('express'),
     bk          = require(__dirname + '/bookmark.js');
 
 var store = db.get('bookmarks');
-
 var users = fs.readFileSync(__dirname + '/users.txt').toString().trim().split(/\s*\n/);
-console.log(users);
 
 /*
   Always check for the user cookie whatever page we're on
@@ -91,7 +89,7 @@ router.post('/delete/:id', function (req, res) {
   The route that the login form posts to. Just writes
   a cookie and passes you on to the home page.
 */
-router.post('/api/login/', function (req, res) {
+router.post('/login/', function (req, res) {
   // res.send(tog(req.body));
   var randomNumber=Math.random().toString();
   randomNumber=randomNumber.substring(2,randomNumber.length);
@@ -104,9 +102,25 @@ router.post('/api/login/', function (req, res) {
   at the top links to. Not really any reason for people
   to log out but it's there just in case.
 */
-router.get('/api/logout/', function (req, res) {
+router.get('/logout/', function (req, res) {
   res.clearCookie('marx_user');
   res.redirect('/');
+});
+
+/*
+  This page
+*/
+router.get('/tags/',function(req,res)
+{
+  store.aggregate([
+    { $project: { tags:1 } },
+    { $unwind : "$tags" },
+    { $group: { _id: "$tags", count: { $sum: 1 } } },
+    { $sort: { count: -1 } }
+  ]).then(function(docs)
+  {
+    res.render('tags',{"user":req.cookies.marx_user,"tags":docs});
+  })
 });
 
 /*

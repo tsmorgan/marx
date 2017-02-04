@@ -15,14 +15,14 @@ module.exports = function (env) {
     if (d !== 'Invalid date') return d;
     else return '';
   };
-  
+
   filters.tagToColour = function(str) {
     var c = 0;
     for (var i = 0; i < str.length; i++) {
       c += str.charCodeAt(i);
     }
     var hue = c%360;
-    var col = Color({hue:hue, saturation:0.62, lightness:0.76});
+    var col = Color({hue:hue, saturation:0.62, lightness:0.62});
     return col;
   };
 

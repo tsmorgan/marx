@@ -53,17 +53,20 @@
           <div class="header-logo">
             {# <img src="/public/images/marx.png" style="width:35px;float:left;margin-left:20px"/> #}
             <a href="/" id="logo" class="content dwplogo"> {{serviceName}} </a>
+            <form id="search" class="site-search" action="/search" method="get" role="search">
+              <div class="content">
+                <label for="site-search-text">Search</label>
+                <input type="search" name="q" id="site-search-text" title="Search" class="js-search-focus" placeholder="Search">
+                <input class="submit" type="submit" value="Search">
+              </div>
+            </form>
           </div>
         </div>
-
-        <div class="header-proposition">
+        {# <div class="header-proposition">
           <div class="content">
-            <nav id="proposition-menu">
-              {# <a href="/" id="proposition-name"></a> #}
-              {% block logged_in %}{% endblock %}
-            </nav>
+            <nav id="proposition-menu"> {% block logged_in %}{% endblock %} </nav>
           </div>
-        </div>
+        </div> #}
       </div>
     </header>
 

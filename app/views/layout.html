@@ -26,14 +26,14 @@
   {% block page_script %}{% endblock %}
 {% endblock %}
 
-{% block logged_in %}
+{# {% block logged_in %}
   <div class="logged_in">
-    <a href="/api/logout/">{{ user }}</a>
+    <a href="/logout/">{{ user }}</a>
   </div>
-{% endblock %}
+{% endblock %} #}
 
 {% block footer_top %}
-<a href="/api/logout/">logout</a>
+<a href="/logout/">logout</a>
 | <a href="/add/">add</a>
 | <a href="javascript:location.href='https://dwp-marx.herokuapp.com/add/?'+'url='+encodeURIComponent(location.href)+'&title='+encodeURIComponent(document.title);" title="Marx">bookmarklet</a>
 {% endblock %}
