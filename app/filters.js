@@ -30,7 +30,7 @@ module.exports = function (env) {
   };
 
   filters.searchToColour = function(str) {
-    return Color({hue:getHue(str), saturation:0.62, lightness:0.42});
+    return Color({hue:getHue(str), saturation:0.62, lightness:0.36});
   };
 
   /* ------------------------------------------------------------------
