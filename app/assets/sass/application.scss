@@ -140,15 +140,21 @@ a.global__tag, a.edit__tag, {
     overflow:hidden;
   }
   span.count {
+    display:inline-block;
     box-sizing: border-box;
     background-color:white;
     width:20px;
     height:20px;
+    margin-left:1em;
     text-align:center;
     border-radius:50%;
     font-size:12px;
     font-weight:700;
     padding-top:3px;
+  }
+
+  .all_tags & {
+    display:inline-block;
   }
 }
 
@@ -266,5 +272,183 @@ a.global__tag, a.edit__tag, {
   &:hover {
     background-color: $grey-3;
     color:$black;
+  }
+}
+#global-header .header-wrapper .header-global .site-search {
+    width: 49%;
+    float: right
+}
+@media (min-width: 769px) {
+    #global-header.with-proposition .header-wrapper .header-global .site-search {
+        width: 33.33%
+    }
+}
+@media screen and (max-width: 379px) {
+    #global-header .header-wrapper .header-global .site-search {
+        width: auto;
+        float: none
+    }
+}
+#global-header .header-wrapper .header-global .site-search .content {
+    margin: 0 15px
+}
+#global-header.with-proposition #search {
+    margin-top: -1px;
+    margin-bottom:1px;
+}
+#global-header .search-toggle {
+    display: none
+}
+@media screen and (max-width: 379px) {
+    #global-header .search-toggle {
+        display: block;
+        float: right;
+        height: 30px;
+        width: 36px;
+        padding: 0;
+        margin: -32px 15px;
+        overflow: hidden;
+        text-indent: -5000px;
+        background-color: #005ea5;
+        background-image: url(https://assets.publishing.service.gov.uk/static/search-button-ca89b2a79f944909ceb7370d3f0b78811d32b96e883348fcd8886f63dd619585.png);
+        background-repeat: no-repeat;
+        background-position: 0 50%
+    }
+    body.search #global-header .search-toggle {
+        display: none
+    }
+}
+@media only screen and (max-width: 379px) and (-webkit-min-device-pixel-ratio: 2),
+only screen and (max-width: 379px) and (min--moz-device-pixel-ratio: 2),
+only screen and (max-width: 379px) and (-o-min-device-pixel-ratio: 20 / 10),
+only screen and (max-width: 379px) and (min-device-pixel-ratio: 2),
+only screen and (max-width: 379px) and (min-resolution: 192dpi),
+only screen and (max-width: 379px) and (min-resolution: 2dppx) {
+    #global-header .search-toggle {
+        background-size: 52.5px 35px;
+        background-position: 100% 50%
+    }
+}
+#global-header .search-toggle:hover {
+    background-color: #004f8c
+}
+#global-header .search-toggle.js-hidden {
+    display: none
+}
+#global-header form#search .content {
+    position: relative;
+    background: #fff
+}
+#global-header form#search label {
+    float: left;
+    min-height: 36px;
+    line-height: 35px;
+    text-indent: 15px;
+    overflow: hidden;
+    display: block;
+    margin-right: 10px
+}
+.js-enabled #global-header form#search label {
+    float: none;
+    position: absolute;
+    left: 0;
+    top: 1px;
+    z-index: 1;
+    width: 100%;
+    margin-right: 0
+}
+#global-header form#search input {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    float: left;
+    width: 50%;
+    min-width: 0;
+    display: block;
+    margin: 0;
+    border: 0;
+    min-height: 36px;
+    padding: 6px 0;
+    -webkit-appearance: none;
+    -moz-appearance: none
+}
+#global-header form#search input#site-search-text {
+    font-family: "nta", Arial, sans-serif;
+    font-weight: 400;
+    text-transform: none;
+    font-size: 14px;
+    line-height: 1.76923;
+    position: relative;
+    padding: 6px;
+    z-index: 3;
+    // background: transparent
+}
+@media (min-width: 641px) {
+    #global-header form#search input#site-search-text {
+        font-size: 16px;
+        line-height: 1.4375
+    }
+}
+#global-header form#search input#site-search-text.focus,
+#global-header form#search input#site-search-text:focus {
+    background: #fff
+}
+.js-enabled #global-header form#search input#site-search-text {
+    width: 86%;
+    width: -webkit-calc(100% - 37px);
+    width: calc(100% - 37px)
+}
+#global-header form#search input.submit {
+    position: absolute;
+    z-index: 4;
+    right: 0;
+    top: 0;
+    width: 36px;
+    height: 36px;
+    border: 1px solid $govuk-blue;
+    border-width: 0 0 0 2px;
+    border-left-color: #222;
+    // -webkit-border-radius: 0;
+    // -moz-border-radius: 0;
+    // border-radius: 0;
+    overflow: hidden;
+    text-indent: -5000px;
+    color: #fff;
+    background-color: #005ea5;
+    background-image: url(https://assets.publishing.service.gov.uk/static/search-button-ca89b2a79f944909ceb7370d3f0b78811d32b96e883348fcd8886f63dd619585.png);
+    background-repeat: no-repeat;
+    background-position: 0 50%
+}
+@media only screen and (-webkit-min-device-pixel-ratio: 2),
+only screen and (min--moz-device-pixel-ratio: 2),
+only screen and (-o-min-device-pixel-ratio: 20 / 10),
+only screen and (min-device-pixel-ratio: 2),
+only screen and (min-resolution: 192dpi),
+only screen and (min-resolution: 2dppx) {
+    #global-header form#search input.submit {
+        background-size: 52.5px 35px;
+        background-position: 100% 50%
+    }
+}
+#global-header form#search input.submit:hover {
+    background-color: #004f8c
+}
+@media screen and (max-width: 379px) {
+    #global-header form#search {
+        display: none;
+        width: 100%
+    }
+    #global-header form#search #site-search-text {
+        width: 80%
+    }
+}
+#global-header form#search.js-visible {
+    display: block
+}
+
+@media (min-width: 769px) {
+  #global-header.with-proposition .header-wrapper .header-global {
+      float: left;
+      width: 100%;
   }
 }

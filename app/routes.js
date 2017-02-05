@@ -123,6 +123,15 @@ router.get('/tags/',function(req,res)
   })
 });
 
+router.get('/search/',function(req,res)
+{
+  store.find(
+    { "$text": { "$search": req.query.q } }  
+  ).then(function(docs) {
+    res.send(tog(docs));
+  });
+});
+
 /*
   The route that /add/ and /edit/ post to. CHecks whether
   the bookmark is already in the database and then adds a
