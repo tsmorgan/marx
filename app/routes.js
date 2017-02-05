@@ -125,10 +125,12 @@ router.get('/tags/',function(req,res)
 
 router.get('/search/',function(req,res)
 {
+  var searchTerm = req.query.q;
   store.find(
-    { "$text": { "$search": req.query.q } }  
+    { "$text": { "$search":searchTerm } },
+    { score: { $meta:"textScore"} }
   ).then(function(docs) {
-    res.send(tog(docs));
+    res.render('results',{"user":req.cookies.marx_user,"bookmarks":docs, "searchTerm":searchTerm});
   });
 });
 

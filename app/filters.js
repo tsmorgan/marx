@@ -16,14 +16,21 @@ module.exports = function (env) {
     else return '';
   };
 
-  filters.tagToColour = function(str) {
+  function getHue(string)
+  {
     var c = 0;
-    for (var i = 0; i < str.length; i++) {
-      c += str.charCodeAt(i);
+    for (var i = 0; i < string.length; i++) {
+      c += string.charCodeAt(i);
     }
-    var hue = c%360;
-    var col = Color({hue:hue, saturation:0.62, lightness:0.62});
-    return col;
+    return c%360;
+  }
+
+  filters.tagToColour = function(str) {
+    return Color({hue:getHue(str), saturation:0.62, lightness:0.68});
+  };
+
+  filters.searchToColour = function(str) {
+    return Color({hue:getHue(str), saturation:0.62, lightness:0.42});
   };
 
   /* ------------------------------------------------------------------

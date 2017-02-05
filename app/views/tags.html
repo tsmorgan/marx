@@ -1,12 +1,12 @@
 {% extends "layout.html" %}
 
-{% block page_title %} All tags {% endblock %}
+{% block page_title %} All tags - {{ super() }}{% endblock %}
 
 {% block content %}
 <main id="content" role="main">
   {# <div class="grid-row">
     <div class="column-two-thirds">       #}
-    <h1 class="heading-xlarge" style="margin-bottom:20px">All Tags</h1>
+    <h1 class="heading-xlarge" style="margin-bottom:20px">All tags</h1>
     <div class="all_tags">
       {% for item in tags %}
           {{ item | log }}

@@ -1,0 +1,63 @@
+{% extends "layout.html" %}
+
+{% block page_title %} Searching for: {{ searchTerm }} - {{ super() }} {% endblock %}
+
+{% block content %}
+<main id="content" role="main">
+
+      {{ bookmarks | log }}
+
+      <div class="heading-xlarge tag__heading" style="color:white;background-color:{{ searchTerm | searchToColour() }}">
+        <p class="sub">You searched for:</p>
+        &ldquo;{{ searchTerm }}&rdquo;
+      </div>
+
+      {% if bookmarks.length %}
+      <table class="index-table">
+        <thead>
+          <tr>
+            <th class="row-url"></th>
+            <th class="row-view" width="250px">&nbsp;</th>
+            <th class="row-edit" width="70px">&nbsp;</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for item in bookmarks %}
+          {{ item | log }}
+          <tr>
+            <td><a class="link-block" href="{{ item.url }}">{{ item.title }}</a></td>
+            {# <td>
+            {% for tag in item.tags %}
+              <a class="tag" href="/tag/{{ tag }}" style="background-color:{{ tag | tagToColour() }};">{{ tag }}</a>
+            {% endfor %}
+            </td> #}
+            <td style="">
+              <a href="/view/{{ item._id}}/" class="view-link">
+                <span class="font-normal">{{ item.updated | formatDate("Do MMM YYYY") }}</span>
+                <img src="/public/images/speech.svg" height="30px" class="icon"/>{{ item.humans | length }}
+                <img src="/public/images/tag.svg" height="30px" class="icon"/>{{ item.tags | length }}
+              </a>
+            </td>
+            <td style="text-align:right;padding-right:10px;"><a class="button" href="/edit/{{ item._id }}">edit</a></td>
+          </tr>
+
+
+        {# <div class="mark form-group">
+          <p><a href="{{ item.url }}">{{ item.title }}</a></p>
+          <p>{{ item.desc }}</p>
+          {% for tag in item.tags %}
+            <span class="tag"><a href="/tag/{{ tag }}">{{ tag }}</a></span>&nbsp;
+          {% endfor %}
+
+        </div> #}
+        {% endfor %}
+        </tbody>
+      </table>
+      {% else %}
+        <h3 class="font-medium" style="margin-top:30px;">No bookmarks for this combination of tags&hellip; yet! ;-)</h3>
+      {% endif %}
+    {# </div>
+  </div> #}
+</main>
+
+{% endblock %}
