@@ -33,7 +33,8 @@
 {% endblock %} #}
 
 {% block footer_top %}
-<a href="/logout/">logout</a>
+You are {{ user }}
+| <a href="/logout/">logout</a>
 | <a href="/add/">add</a>
 | <a href="javascript:location.href='https://dwp-marx.herokuapp.com/add/?'+'url='+encodeURIComponent(location.href)+'&title='+encodeURIComponent(document.title);" title="Marx">bookmarklet</a>
 {% endblock %}
