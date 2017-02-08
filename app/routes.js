@@ -134,6 +134,19 @@ router.get('/tags/',function(req,res)
   })
 });
 
+/*
+  This page
+*/
+router.get('/thisweek/',function(req,res)
+{
+  var oneWeekAgo = new Date();
+  oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+  store.find({"created": { $gte: oneWeekAgo }}).then(function(docs)
+  {
+    res.render('week',prepareTemplateData(req,{"bookmarks":docs,"thisweek":true}));
+  })
+});
+
 router.get('/search/',function(req,res)
 {
   var searchTerm = req.query.q;
