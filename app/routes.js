@@ -10,6 +10,17 @@ var express     = require('express'),
 var store = db.get('bookmarks');
 var users = fs.readFileSync(__dirname + '/users.txt').toString().trim().split(/\s*\n/);
 
+var count = 0;
+
+store.count({},function(error,c){ count = c; });
+
+function prepareTemplateData(req,obj)
+{
+  obj.total_marx = count;
+  obj.user = req.cookies.marx_user;
+  return obj;
+}
+
 /*
   Always check for the user cookie whatever page we're on
   If they don't have the it show the login screen instead.
@@ -17,8 +28,7 @@ var users = fs.readFileSync(__dirname + '/users.txt').toString().trim().split(/\
 router.get("/*", function (req, res, next) {
   if (!req.cookies.marx_user)
   {
-    console.log('checking cookies')
-    res.render('login',{"cookie":req.cookies,users:users});
+    res.render('login',prepareTemplateData(req,{"cookie":req.cookies,users:users}));
   } else {
     next();
   }
@@ -30,7 +40,7 @@ router.get("/*", function (req, res, next) {
 router.get('/', function (req, res) {
   store.find({ tags:{ $in:['home'] } },{ sort:{ created: -1 }}).then(function(docs)
   {
-    res.render('index',{"user":req.cookies.marx_user,"bookmarks":docs,"tags":['home']});
+    res.render('index',prepareTemplateData(req,{"bookmarks":docs,"tags":['home']}));
   });
 });
 
@@ -38,7 +48,7 @@ router.get('/', function (req, res) {
   Add a new bookmark form.
 */
 router.get('/add/', function (req, res) {
-    res.render('form',{"user":req.cookies.marx_user, "mark":req.query});
+    res.render('form',prepareTemplateData(req,{"mark":req.query}));
 });
 
 /*
@@ -49,7 +59,7 @@ router.get('/view/:id', function (req, res) {
   {
     if (doc)
     {
-      res.render('view',{"user":req.cookies.marx_user, "mark":doc});
+      res.render('view',prepareTemplateData(req,{"mark":doc}));
     } else {
       res.send('Ooops! No bookmark found.');
     }
@@ -68,7 +78,7 @@ router.get('/edit/:id', function (req, res) {
       var mark = doc;
       var h = _.findIndex(doc.humans, ['user', req.cookies.marx_user]);
       mark.me = doc.humans[h];
-      res.render('form',{"user":req.cookies.marx_user, "mark":mark});
+      res.render('form',prepareTemplateData(req,{"mark":mark}));
     } else {
       res.send('Ooops! No bookmark found.');
     }
@@ -81,6 +91,7 @@ router.get('/edit/:id', function (req, res) {
 router.post('/delete/:id', function (req, res) {
   store.findOneAndDelete({"_id":req.params.id}).then(function(doc)
   {
+    store.count({},function(error,c){ count = c; });
     res.send(tog(doc));
   });
 });
@@ -119,7 +130,7 @@ router.get('/tags/',function(req,res)
     { $sort: { count: -1 } }
   ]).then(function(docs)
   {
-    res.render('tags',{"user":req.cookies.marx_user,"tags":docs});
+    res.render('tags',prepareTemplateData(req,{"tags":docs}));
   })
 });
 
@@ -130,7 +141,7 @@ router.get('/search/',function(req,res)
     { "$text": { "$search":searchTerm } },
     { score: { $meta:"textScore"} }
   ).then(function(docs) {
-    res.render('results',{"user":req.cookies.marx_user,"bookmarks":docs, "searchTerm":searchTerm});
+    res.render('results',prepareTemplateData(req,{"bookmarks":docs, "searchTerm":searchTerm}));
   });
 });
 
@@ -155,6 +166,7 @@ router.post('/api/marks/', function (req, res) {
       var mark = bookmark.getBookmark();
       store.insert(mark).then(function(doc)
       {
+        store.count({},function(error,c){ count = c; });
         res.redirect('/view/'+doc._id);
       },function() { res.send("error adding to db"); });
 
@@ -188,7 +200,7 @@ router.get('/*', function (req, res) {
     // store.find({ tags: { $in:tags }}).then(function(docs)
     store.find({ tags:{ $all:tags }},{ sort:{ created: -1 }}).then(function(docs)
     {
-      res.render('index',{"user":req.cookies.marx_user,"bookmarks":docs,"tags":tags});
+      res.render('index',prepareTemplateData(req,{"bookmarks":docs,"tags":tags}));
     });
   } else {
     res.send('No tag specifido!')
